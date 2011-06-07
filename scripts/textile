@@ -1,0 +1,92 @@
+#!/usr/bin/python
+import sys
+import optparse
+import textile
+
+usage = """%prog [options] ...
+Textile is a XHTML generator using a simple markup developed 
+  by Dean Allen. See http://textile.thresholdstate.com/
+pytextile is an implementation of Textile in Python. 
+  See http://loopcore.com/python-textile/
+This is a command line interface to pytextile. 
+  See http://guido-leisker.de/Projects/Textile-cmd/
+
+The follwing textile options are not supported, 
+  because they seem to be ignored by PyTextile:
+ - encoding
+ - output
+"""
+
+version = "textile command line interface version 0.1"
+
+parser = optparse.OptionParser(usage=usage, version=version)
+parser.add_option("-i", "--input-file", dest="input_file",
+                  help="Textile source file (default: stdin).", 
+                  action="store", type="string", default="",
+                  metavar="INFILE")
+parser.add_option("-o", "--output-file", dest="output_file",
+                  action="store", type="string", default="",
+                  help="(x)html output file (default: stdout).", 
+                  metavar="OUTFILE")
+parser.add_option("--html_type", dest="html_type",
+                  action="store", type="string", default="xhtml",
+                  help="'xhtml' or 'html' style tags (default: 'xhtml')")
+parser.add_option("--head_offset", dest="head_offset",
+                  action="store", type="int", default=0,
+                  help="Offset to apply to heading levels (default: 0) \
+                          Not available in restricted mode!")
+parser.add_option("--restricted", dest="restricted",
+                  action="store_true", default=False,
+                  help="Use restricted version for untrusted input.")
+parser.add_option("--lite", dest="lite",
+                  action="store_true", default=False,
+                  help="Block tags are restricted to p, bq, and bc. \
+                        Lists and tables are disabled. \
+                          Only in restricted mode!")
+parser.add_option("--noimage", dest="noimage",
+                  action="store_true", default=False,
+                  help="Disable image tags.            \
+                          Only in restricted mode!")
+                  
+(options, args) = parser.parse_args()
+
+i_file = None
+if options.input_file:
+  try:
+    i_file = open(options.input_file, "r")
+  except IOError:
+    print "Cannot open", options.input_file + ":", sys.exc_value
+    sys.exit(1)
+else:
+  i_file = sys.stdin
+
+o_file = None
+if options.output_file:
+  try:
+    o_file = open(options.output_file, "w")
+  except IOError:
+    print "Cannot open", options.output_file + ":", sys.exc_value
+    sys.exit(1)
+else:
+  o_file = sys.stdout
+
+if options.restricted:
+  o_file.write(
+    textile.Textile(
+      restricted=True, 
+      lite=options.lite, 
+      noimage=options.noimage).textile(
+        text            = i_file.read(),
+        rel             = 'nofollow',
+        html_type       = options.html_type
+      )
+    )
+else:
+  o_file.write(
+    textile.Textile().textile(
+      text            = i_file.read(),
+      head_offset     = options.head_offset,
+      html_type       = options.html_type,
+      )
+    )
+

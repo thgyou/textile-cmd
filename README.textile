@@ -1,0 +1,33 @@
+h2. Textile-cmd 
+
+h3. About
+
+* Textile is a XHTML generator using a simple markup developed by Dean Allen. 
+** See "Homepage":http://textile.thresholdstate.com/
+ 
+* pytextile is an implementation of Textile in Python. 
+** See "Homepage":http://loopcore.com/python-textile/
+
+* This script wraps the pytextile library and provides direct usage from shell. 
+** See "Homepage":http://guido-leisker.de/Projects/Textile-cmd/
+
+* Tested with Python 2.6.6 and pytextile 2.1.5.
+
+h3. Dependencies
+
+* "Python":http://www.python.org/
+* "pytextile":http://code.google.com/p/pytextile/
+
+h3. Installation
+
+* @sudo python setup.py install@
+
+h3. Usage
+
+* @textile --help@
+* @textile < README.textile > README.html@
+
+h3. License
+
+* MIT, see separate file @License@
+
