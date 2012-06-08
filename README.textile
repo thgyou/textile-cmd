@@ -9,7 +9,7 @@ h3. About
 ** See "Homepage":http://loopcore.com/python-textile/
 
 * This script wraps the pytextile library and provides direct usage from shell. 
-** See "Homepage":http://guido-leisker.de/Projects/Textile-cmd/
+** See "Homepage":https://github.com/thgyou/textile-cmd
 
 * Tested with Python 2.6.6 and pytextile 2.1.5.
 
@@ -20,6 +20,7 @@ h3. Dependencies
 
 h3. Installation
 
+* @git clone https://github.com/thgyou/textile-cmd.git@
 * @sudo python setup.py install@
 
 h3. Usage
